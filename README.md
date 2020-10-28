@@ -23,15 +23,32 @@ Raspberry Pi の `vcgencmd` コマンドを利用して、SoC温度・動作ク�
   - （低電圧のため）クロックダウンしている
   - CPU温度のソフトリミット到達
 
-## Mackerelに登録する
-
-```
-[plugin.metrics.raspberrypi]
-command = "/home/pi/bin/mackerel-plugin-raspberrypi"
-```
-
 ## 利用例
 
 ![temperature](https://raw.githubusercontent.com/hnw/mackerel-plugin-raspberrypi/images/temperature.png)
 
 ![clock](https://raw.githubusercontent.com/hnw/mackerel-plugin-raspberrypi/images/clock.png)
+
+## 対応アーキテクチャ
+
+GitHub Releasesで以下のアーキテクチャのバイナリを提供しています。
+
+- arm(ARMv6)
+- arm64
+
+ビルドすれば他のアーキテクチャ用のバイナリも作れますが、無意味だと思います。
+
+## インストール
+
+`mkr plugin install`に対応しているので`mkr`を使うのがお勧めです。
+
+```
+$ sudo mkr plugin install --upgrade hnw/mackerel-plugin-raspberrypi
+```
+
+## Mackerelに登録する
+
+```
+[plugin.metrics.raspberrypi]
+command = "/opt/mackerel-agent/plugins/bin/mackerel-plugin-raspberrypi"
+```
