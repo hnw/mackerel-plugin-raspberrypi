@@ -40,10 +40,14 @@ func TestParseThrottled(t *testing.T) {
 `
 	voltage, _ := parseThrottled(stub)
 	expected := map[string]float64{
-		"under_voltage":     1,
-		"frequency_capped":  0,
-		"throttled":         1,
-		"temperature_limit": 0,
+		"under_voltage":              1,
+		"frequency_capped":           0,
+		"throttled":                  1,
+		"temperature_limit":          0,
+		"under_voltage_occurred":     1,
+		"frequency_capped_occurred":  0,
+		"throttled_occurred":         1,
+		"temperature_limit_occurred": 0,
 	}
 	if !reflect.DeepEqual(expected, voltage) {
 		t.Errorf("Expected %#v, got %#v", expected, voltage)

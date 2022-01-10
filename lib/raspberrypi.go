@@ -85,7 +85,17 @@ func (r RaspberrypiPlugin) GraphDefinition() map[string]mp.Graphs {
 				{Name: "under_voltage", Label: "Under-voltage detected"},
 				{Name: "frequency_capped", Label: "Arm frequency capped"},
 				{Name: "throttled", Label: "Throttled"},
-				{Name: "temperature_limit", Label: "Soft temperature limit active"},
+				{Name: "temperature_limit", Label: "Soft temperature limit"},
+			},
+		},
+		"throttled_history": {
+			Label: "Throttled since last reboot",
+			Unit:  mp.UnitInteger,
+			Metrics: []mp.Metrics{
+				{Name: "under_voltage_occurred", Label: "Under-voltage detected"},
+				{Name: "frequency_capped_occurred", Label: "Arm frequency capped"},
+				{Name: "throttled_occurred", Label: "Throttled"},
+				{Name: "temperature_limit_occurred", Label: "Soft temperature limit"},
 			},
 		},
 	}
@@ -216,6 +226,10 @@ func parseThrottled(out string) (metrics map[string]float64, err error) {
 		metrics["frequency_capped"] = float64(rawValue & 0x2 >> 1)
 		metrics["throttled"] = float64(rawValue & 0x4 >> 2)
 		metrics["temperature_limit"] = float64(rawValue & 0x8 >> 3)
+		metrics["under_voltage_occurred"] = float64(rawValue & 0x10000 >> 16)
+		metrics["frequency_capped_occurred"] = float64(rawValue & 0x20000 >> 17)
+		metrics["throttled_occurred"] = float64(rawValue & 0x40000 >> 18)
+		metrics["temperature_limit_occurred"] = float64(rawValue & 0x80000 >> 19)
 		return
 	}
 	return nil, fmt.Errorf("Failed to parse throttled: %s", out)
